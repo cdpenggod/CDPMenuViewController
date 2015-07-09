@@ -32,8 +32,8 @@
     //初始化CDPMenuViewController并设置相关参数,即主视图、左菜单、右菜单
     CDPMenuViewController *menuViewController=[[CDPMenuViewController alloc] initWithRootViewController:midViewController2 leftViewController:leftViewController1 rightViewController:rightViewController3];
     
-    //设置右菜单为CDPTranslationModel模式
-    menuViewController.modelOfRight=1;
+    //设置右菜单为CDPTranslationMode模式
+    menuViewController.modeOfRight=1;
     
     
     self.window.rootViewController=menuViewController;

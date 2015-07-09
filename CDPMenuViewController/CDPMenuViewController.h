@@ -10,11 +10,11 @@
 
 enum {
     //平移缩放模式(默认)
-    CDPScaleModel=0,
+    CDPScaleMode=0,
     //平移模式
-    CDPTranslationModel,
+    CDPTranslationMode,
 };
-typedef NSInteger CDPMenuPushModel;
+typedef NSInteger CDPMenuPushMode;
 
 @interface CDPMenuViewController : UIViewController{
     UIViewController *_leftViewController;
@@ -23,14 +23,14 @@ typedef NSInteger CDPMenuPushModel;
     
 }
 
-//统一设置推出菜单模式(默认为CDPScaleModel模式)
-@property (nonatomic,assign) CDPMenuPushModel model;
+//统一设置推出菜单模式(默认为CDPScaleMode模式)
+@property (nonatomic,assign) CDPMenuPushMode mode;
 
 //推出左菜单模式
-@property (nonatomic,assign) CDPMenuPushModel modelOfLeft;
+@property (nonatomic,assign) CDPMenuPushMode modeOfLeft;
 
 //推出右菜单模式
-@property (nonatomic,assign) CDPMenuPushModel modelOfRight;
+@property (nonatomic,assign) CDPMenuPushMode modeOfRight;
 
 //推出菜单动画时长(默认为0.35s)
 @property (nonatomic,assign) NSTimeInterval animationDuration;
@@ -38,7 +38,7 @@ typedef NSInteger CDPMenuPushModel;
 //是否开启阴影边框(默认为YES)
 @property (nonatomic,assign) BOOL isShadow;
 
-//在平移模式(CDPTranslationModel)下主视图的平移长度(默认为视图的3/4长)
+//在平移模式(CDPTranslationMode)下主视图的平移长度(默认为视图的3/4长)
 @property (nonatomic,assign) NSInteger length;
 
 //初始化设置

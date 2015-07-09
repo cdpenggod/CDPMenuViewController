@@ -46,7 +46,7 @@
         
         _isShadow=YES;
         
-        _model=CDPScaleModel;
+        _mode=CDPScaleMode;
         
         _length=self.view.bounds.size.width/4*3;
         
@@ -71,10 +71,10 @@
         NSLog(@"长度不能设置为负数");
     }
 }
--(void)setModel:(CDPMenuPushModel)model{
-    _model=model;
-    _modelOfLeft=model;
-    _modelOfRight=model;
+-(void)setMode:(CDPMenuPushMode)mode{
+    _mode=mode;
+    _modeOfLeft=mode;
+    _modeOfRight=mode;
 }
 #pragma mark 推出菜单
 //推出左菜单
@@ -89,7 +89,7 @@
 
         _state=2;
         
-        _model=_modelOfLeft;
+        _mode=_modeOfLeft;
         
         //设置阴影
         if (_isShadow==YES) {
@@ -103,11 +103,11 @@
             _midView.layer.shadowOpacity=0;
         }
         //模式判断
-        if (_model==CDPScaleModel) {
-            [self scaleModel];
+        if (_mode==CDPScaleMode) {
+            [self scaleMode];
         }
-        if (_model==CDPTranslationModel) {
-            [self translationModel];
+        if (_mode==CDPTranslationMode) {
+            [self translationMode];
         }
         
     }
@@ -125,7 +125,7 @@
 
         _state=3;
         
-        _model=_modelOfRight;
+        _mode=_modeOfRight;
         
         //设置阴影
         if (_isShadow==YES) {
@@ -139,18 +139,18 @@
             _midView.layer.shadowOpacity=0;
         }
         //模式判断
-        if (_model==CDPScaleModel) {
-            [self scaleModel];
+        if (_mode==CDPScaleMode) {
+            [self scaleMode];
         }
-        if (_model==CDPTranslationModel) {
-            [self translationModel];
+        if (_mode==CDPTranslationMode) {
+            [self translationMode];
         }
         
     }
 }
-#pragma mark CDPMenuPushModel各模式
-//CDPScaleModel平移缩放模式
--(void)scaleModel{
+#pragma mark CDPMenuPushMode各模式
+//CDPScaleMode平移缩放模式
+-(void)scaleMode{
     if (_state==2) {
         //左菜单状态
         [UIView animateWithDuration:_animationDuration animations:^{
@@ -179,8 +179,8 @@
     }
 }
 
-//CDPTranslationModel平移模式
--(void)translationModel{
+//CDPTranslationMode平移模式
+-(void)translationMode{
     if (_state==2) {
         //左菜单状态
         [UIView animateWithDuration:_animationDuration animations:^{
@@ -234,13 +234,13 @@
 -(void)panGR:(UIPanGestureRecognizer *)panGR{
     CGPoint panPointOfSelf=[panGR locationInView:self.view];
     
-    if (_model==CDPScaleModel) {
+    if (_mode==CDPScaleMode) {
         //平移缩放模式
         if (panPointOfSelf.x<=self.view.bounds.size.width/4*3&&panPointOfSelf.x>=self.view.bounds.size.width/4) {
             [self layoutMidViewWithPanPointOfSelf:panPointOfSelf];
         }
     }
-    if (_model==CDPTranslationModel) {
+    if (_mode==CDPTranslationMode) {
         //平移模式
         if (panPointOfSelf.x<=_length&&panPointOfSelf.x>=self.view.bounds.size.width-_length) {
             [self layoutMidViewWithPanPointOfSelf:panPointOfSelf];
@@ -254,12 +254,12 @@
                 [self restoreViewController];
             }
             else{
-                if (_model==CDPScaleModel) {
+                if (_mode==CDPScaleMode) {
                     //平移缩放模式
                     CGAffineTransform midTransform=CGAffineTransformMakeScale(0.5,0.5);
                     _midView.transform=CGAffineTransformTranslate(midTransform,_midView.bounds.size.width,0);
                 }
-                if (_model==CDPTranslationModel) {
+                if (_mode==CDPTranslationMode) {
                     //平移模式
                     _midView.transform=CGAffineTransformMakeTranslation(_length,0);
                 }
@@ -271,12 +271,12 @@
                 [self restoreViewController];
             }
             else{
-                if (_model==CDPScaleModel) {
+                if (_mode==CDPScaleMode) {
                     //平移缩放模式
                     CGAffineTransform midTransform=CGAffineTransformMakeScale(0.5,0.5);
                     _midView.transform=CGAffineTransformTranslate(midTransform,-_midView.bounds.size.width,0);
                 }
-                if (_model==CDPTranslationModel) {
+                if (_mode==CDPTranslationMode) {
                     //平移模式
                     _midView.transform=CGAffineTransformMakeTranslation(-_length,0);
                 }
@@ -293,26 +293,26 @@
 - (void)layoutMidViewWithPanPointOfSelf:(CGPoint)point{
     if (_state==2) {
         //左菜单状态
-        if (_model==CDPScaleModel) {
+        if (_mode==CDPScaleMode) {
             //平移缩放模式
             CGFloat scale=ABS(point.x-self.view.bounds.size.width/4*3)/(self.view.bounds.size.width/2)*0.5+0.5;
             CGAffineTransform midTransform=CGAffineTransformMakeScale(scale,scale);
             _midView.transform=CGAffineTransformTranslate(midTransform,self.view.bounds.size.width/2-ABS(point.x-self.view.bounds.size.width/4*3),0);
         }
-        if (_model==CDPTranslationModel) {
+        if (_mode==CDPTranslationMode) {
             //平移模式
             _midView.transform=CGAffineTransformMakeTranslation(point.x,0);
         }
     }
     if (_state==3) {
         //右菜单状态
-        if (_model==CDPScaleModel) {
+        if (_mode==CDPScaleMode) {
             //平移缩放模式
             CGFloat scale=(point.x-self.view.bounds.size.width/4)/(self.view.bounds.size.width/2)*0.5+0.5;
             CGAffineTransform midTransform=CGAffineTransformMakeScale(scale,scale);
             _midView.transform=CGAffineTransformTranslate(midTransform,-(self.view.bounds.size.width/2-(point.x-self.view.bounds.size.width/4)),0);
         }
-        if (_model==CDPTranslationModel) {
+        if (_mode==CDPTranslationMode) {
             //平移模式
             _midView.transform=CGAffineTransformMakeTranslation(-(self.view.bounds.size.width-point.x),0);
         }
